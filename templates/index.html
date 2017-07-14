@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+    <title>Twitter query tool</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/leaflet.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/query-tool.css') }}">
+    <script type='text/javascript'>
+        $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    </script>
+</head>
+<body style="height: 100%">
+    <div class="container-fluid">
+        <div class="row" id="main-area">
+            <div class="col-xs-6">
+                <div id="map">
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <!--<table class="table table-striped table-hover" id="table-result">-->
+                <table class="table" id="table-result"> <!-- TODO: table-striped & table-hover not working -->
+                </table>
+            </div>
+        </div>
+        <div class="row" id="control-area">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="input-user-id">User ID</label>
+                    <input type="text" class="form-control" id="input-user-id">
+                </div>
+                <button type="submit" class="btn btn-default" id="button-user-id">Search User ID</button>
+            </form>
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="input-tweet-id">Place ID</label>
+                    <input type="text" class="form-control" id="input-tweet-id">
+                </div>
+                <button class="btn btn-default" id="button-tweet-id">Search Tweet ID</button>
+            </form>
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="input-place-id">Place ID</label>
+                    <input type="text" class="form-control" id="input-place-id">
+                </div>
+                <button class="btn btn-default" id="button-place-id">Search Place ID</button>
+            </form>
+            <form class="form-inline">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="input-resize-map" id="input-resize-map"> Resize map
+                    </label>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+    <script src="{{ url_for('static', filename='js/leaflet-src.js') }}"></script>
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter2/1.4.0-alpha.6/crossfilter.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.4/dc.min.js"></script>
+    <script src="{{ url_for('static', filename='js/query-tool.js') }}"></script>
+</body>
+</html>
