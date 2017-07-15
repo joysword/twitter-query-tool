@@ -56,8 +56,6 @@ function update_info(data) {
 $('#button-place-id').click(function(e) {
     e.preventDefault();
     // console.log('here');
-
-
     // if (map.hasLayer(place_layer)) {
     map.removeLayer(place_layer);
     console.log('removed place');

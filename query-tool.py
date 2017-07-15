@@ -47,9 +47,12 @@ def get_place():
                 'id': place.id,
                 'name': place.name,
                 'full name': place.full_name,
-                'lat': place.centroid[1],
-                'lon': place.centroid[0],
-                'country code': place.country_code
+                'centroid (lon, lat)': place.centroid,
+                'country code': place.country_code,
+                'contained id': place.contained_within[0].id,
+                'contained name': place.contained_within[0].name,
+                'contained full name': place.contained_within[0].full_name,
+                'contained type': place.contained_within[0].place_type,
             },
             'geometry': {
                 'type': place.bounding_box.type,
@@ -61,6 +64,47 @@ def get_place():
         return jsonify(feature)
     else:
         with open(get_file('place', place_id), 'r') as json_data:
+            ret = json.load(json_data)
+        return jsonify(ret)
+
+
+@app.route('/get/user')
+def get_user():
+    user_id = request.args.get('id')
+
+    if not exist('user', user_id):
+        user = api.get_status(user_id)
+
+        feature = {
+            'type': 'Feature',
+            'properties': {
+                'id': user.id_str,
+                'followers': user.followers_count,
+                'tweets': user.statuses_count,
+                'following': user.friends_count,
+                'name (real)': user.name,
+                'name (screen)': user.screen_name,
+                'location': user.location,
+                'most recent tweet': user.status.text,  # TODO: tweepy's Status does not have extended text
+            }
+        }
+
+        has_coord = True if user.coordinates else False
+
+        feature = {
+            'type': 'Feature',
+            'properties': {
+                'id': user.id_str,
+                'text': text,
+                'precise': has_coord
+            },
+            'geometry': user.coordinates
+        }
+        with open(os.path.join('static', 'json', 'user', user_id+'.json'), 'w') as json_file:
+            json.dump(feature, json_file)
+        return jsonify(feature)
+    else:
+        with open(get_file('user', user_id), 'r') as json_data:
             ret = json.load(json_data)
         return jsonify(ret)
 
